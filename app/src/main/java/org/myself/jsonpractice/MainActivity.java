@@ -21,6 +21,7 @@ import p32929.updaterlib.UpdateModel;
 public class MainActivity extends AppCompatActivity {
 
     TextView textView_Name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         AndroidNetworking.initialize(getApplicationContext());
 
-        textView_Name=findViewById(R.id.textView_Name);
+        textView_Name = findViewById(R.id.textView_Name);
 
         populateList();
     }
@@ -37,15 +38,20 @@ public class MainActivity extends AppCompatActivity {
         new AppUpdater(this, "https://raw.githubusercontent.com/RazM10/Data/master/DummyData.json", new UpdateListener() {
             @Override
             public void onJsonDataReceived(final UpdateModel updateModel, JSONObject jsonObject) {
-//                OnlineData onlineData = new Gson().fromJson(jsonObject.toString(), OnlineData.class);
-//                classeModels = onlineData.getClasses();
-//                adapderClass.replaceArrayList(classeModels);
                 try {
-                    JSONArray array=jsonObject.getJSONArray("story");
-                    for(int i=0;i<array.length();i++){
-                        JSONObject object=array.getJSONObject(i);
-                        String name=object.getString("adviseBangla");
-                        textView_Name.setText(name);
+                    JSONArray array = jsonObject.getJSONArray("story");
+
+                    String s = array.toString();
+                    JSONArray a = new JSONArray(s);
+//                    textView_Name.setText(s);
+
+                    for (int i = 0; i < a.length(); i++) {
+                        JSONObject object = a.getJSONObject(i);
+                        if (i == 0) {
+                            String nameEng = object.getString("hitsEnglish");
+                            String nameBan = object.getString("hintsBangla");
+                            textView_Name.setText(nameEng+"\n\n\n"+nameBan);
+                        }
                     }
 
                 } catch (JSONException e) {
