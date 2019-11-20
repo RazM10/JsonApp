@@ -11,6 +11,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView textView_Name;
     ImageView imageView_pdfIcon;
-    String pdf;
+    String pdf, pdfCover;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         AndroidNetworking.initialize(getApplicationContext());
 
         textView_Name = findViewById(R.id.textView_Name);
-        imageView_pdfIcon=findViewById(R.id.imageView_pdfIcon);
+        imageView_pdfIcon = findViewById(R.id.imageView_pdfIcon);
 
         populateList();
 
@@ -51,7 +52,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onJsonDataReceived(final UpdateModel updateModel, JSONObject jsonObject) {
                 try {
-                    JSONArray array = jsonObject.getJSONArray("story");
+                    pdfCover = jsonObject.getString("bookCover");
+                    pdf =jsonObject.getString("bookPdf");
+                    Picasso.get().load(pdfCover).into(imageView_pdfIcon);
+
+
+                            //array
+                            JSONArray array = jsonObject.getJSONArray("story");
 
                     String s = array.toString();
                     JSONArray a = new JSONArray(s);
@@ -62,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         if (i == 0) {
                             String nameEng = object.getString("hitsEnglish");
                             String nameBan = object.getString("hintsBangla");
-                            textView_Name.setText(nameEng+"\n\n\n"+nameBan);
+                            textView_Name.setText(nameEng + "\n\n\n" + nameBan);
                         }
                     }
 
@@ -78,5 +85,6 @@ public class MainActivity extends AppCompatActivity {
         }).execute();
     }
 
-    public void showPdf(){}
+    public void showPdf() {
+    }
 }
