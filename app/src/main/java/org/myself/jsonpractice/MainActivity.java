@@ -2,6 +2,7 @@ package org.myself.jsonpractice;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -53,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
             public void onJsonDataReceived(final UpdateModel updateModel, JSONObject jsonObject) {
                 try {
                     pdfCover = jsonObject.getString("bookCover");
-                    pdf =jsonObject.getString("bookPdf");
+                    pdf = jsonObject.getString("bookPdf");
                     Picasso.get().load(pdfCover).into(imageView_pdfIcon);
 
 
-                            //array
-                            JSONArray array = jsonObject.getJSONArray("story");
+                    //array
+                    JSONArray array = jsonObject.getJSONArray("story");
 
                     String s = array.toString();
                     JSONArray a = new JSONArray(s);
@@ -86,5 +87,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showPdf() {
+        Intent intent = new Intent(MainActivity.this, WebViewPdfActivity.class);
+        intent.putExtra("url",pdf );
+        startActivity(intent);
     }
 }
