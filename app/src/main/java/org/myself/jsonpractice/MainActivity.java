@@ -3,6 +3,8 @@ package org.myself.jsonpractice;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidnetworking.AndroidNetworking;
@@ -21,6 +23,8 @@ import p32929.updaterlib.UpdateModel;
 public class MainActivity extends AppCompatActivity {
 
     TextView textView_Name;
+    ImageView imageView_pdfIcon;
+    String pdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +34,16 @@ public class MainActivity extends AppCompatActivity {
         AndroidNetworking.initialize(getApplicationContext());
 
         textView_Name = findViewById(R.id.textView_Name);
+        imageView_pdfIcon=findViewById(R.id.imageView_pdfIcon);
 
         populateList();
+
+        imageView_pdfIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPdf();
+            }
+        });
     }
 
     private void populateList() {
@@ -65,4 +77,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }).execute();
     }
+
+    public void showPdf(){}
 }
